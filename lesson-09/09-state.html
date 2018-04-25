@@ -8,8 +8,14 @@
     class StopWatch extends React.Component {
         state = {
             lapse: 0,
-            running: false
+            running: false,
+            visibility: true
         }
+
+        componentWillUnmount() {
+            clearInterval(this.timer)
+        }
+
         render() {
             const {lapse, running} = this.state
             const buttonStyles = {
@@ -21,11 +27,12 @@
                 width: 200,
             }
             return (
-                    <div style={{textAlign: 'center'}}>
+                    <div id="container" style={{textAlign: 'center', display: this.state.visibility ? 'block' : 'none'}} >
                         <label style={{fontSize: '5em', display: 'block'}}>{lapse}ms</label>
                         <button onClick={this.handleRunClick} style={buttonStyles}>{running ? 'Stop' : 'Start'}</button>
                         <button style={buttonStyles} onClick={this.handleClearClick}>Clear</button>
                     </div>
+
             )
         }
 
@@ -49,6 +56,33 @@
         }
     }
 
-    const element = <StopWatch running={false} lapse={0}/>
+    class App extends React.Component {
+        state = {
+            showStopWatch: true
+        }
+
+        render() {
+            const {showStopWatch} = this.state
+
+            return (
+                    <div>
+                        <label>Show StopWatch{''}
+                        <input
+                            type="checkbox"
+                            checked = {showStopWatch}
+                            onChange={() =>
+                            this.setState(s => ({
+                                showStopWatch: !s.showStopWatch
+                            }))}
+                        />
+                        </label>
+                        <br/>
+                        {showStopWatch ? <StopWatch /> : null}
+                    </div>
+            )
+        }
+    }
+
+    const element = <App />
     ReactDOM.render(element, document.getElementById('root'))
 </script>
