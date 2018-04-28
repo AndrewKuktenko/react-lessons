@@ -40,11 +40,11 @@
         }
 
         render() {
-            return this.state.loaded ? this.state.company || 'Unknown' : '...'
+            return this.state.error ? 'NAME REQUEST ERROR' : this.state.loaded ? this.state.company || 'Unknown' : '...'
         }
     }
 
-    const username = 'ivz-dev'
+    const username = 'AndrewKuktenko'
     const element = (
             <div>
                 <div>
